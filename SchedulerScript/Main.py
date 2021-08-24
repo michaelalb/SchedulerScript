@@ -1,28 +1,55 @@
-import argparse
+import time
+
+import pathlib
+
 import SchedulerToolBox as TB
-from pathlib import Path
-import os
+
 
 if __name__ == '__main__':
-    # parameter set up
-    script_path = '/groups/pupko/alburquerque/RL/Scheduler/PhyloRL/ProjectMain.py'
+    # JOB parameter set up
+
+    # path to the script you want to run
+    script_path = '/groups/pupko/alburquerque/RL/Scheduler/ProjectMain.py'
+    # name of the queue to submit jobs to
     queue_name = 'itaym'
+    # exec command for the script
     script_exec_command = 'python'
-    error_path = Path(os.curdir)/'OUT'
+    # path to error and out folder - make sure this folder exists
+    error_path = pathlib.Path().resolve() / 'OUT'
+    out_path = pathlib.Path().resolve() / 'OUT'
+    # job name prefix
     job_base_name = 'ScJob_'
+    # number of cpus for each scheduled job
     ncpus = 1
-    out_path = Path(os.curdir)/'OUT'
+    # name and path of your conda env - set to None if no conda env is required
     conda_env_name = 'MLworkshop'
     conda_env_path = '/groups/itay_mayrose/danaazouri/miniconda3/etc/profile.d/conda.sh'
-    data_to_split_into_chunks = [f.name for f in Path('/groups/pupko/alburquerque/RL/Tree_Data/data/All_sized').iterdir() if f.is_dir()]
-    data_param_name = 'data_sets'
-    chunk_size = 2
-    const_script_params = {}
+    # additional commands text to run
+    additional_commands = ''
+
+    # SCRIPT params given to your script in --{param_name} {param_value} format
+    # the data to split into chunks, each chunk will be given to the job in list form
+    data_to_split_into_chunks = [3856] + ['1280' for i in range(10)] + [3856]  #[f.name for f in Path('/groups/pupko/alburquerque/RL/Tree_Data/data/All_sized').iterdir() if f.is_dir()]
+    # chunk size for each job
+    chunk_size = 1
+    # name of the data param you want to give your script
+    data_param_name = 'data'
+    # additionl params to give to your script. dictionary keys are the param names dictionary values are the values
+    const_script_params = {'cpus': 2}
+    # your username
     username = 'alburquerque'
+
+    # limits on the scheduler
+    # total cpu limit of all running jobs
     total_cpu_limit = 100
+    # total number of jobs allowed to run (not including the scheduler itself)
     total_job_number_limit = 5
+    # total number of jobs the scheduler is allowed to run in parallel
     scheduler_job_limit = 3
-    job_timeout = None  # a timout for any specific scheduler job in hours. we dont count the minutes
+    # a timout for any specific scheduler job in hours. we dont count the minutes
+    job_timeout = 1
+    # the time between checks in secs, currently set to ten minutes
+    time_between_check_in_sec = 600
 
     # task set up
     baseSh = TB.create_base_sh(script_path=script_path, queue_name=queue_name,
@@ -40,10 +67,10 @@ if __name__ == '__main__':
                                                scheduler_job_prefix=job_base_name,
                                                scheduler_job_limit=scheduler_job_limit, job_timeout=job_timeout)
         for i in range(freeSlots):
-            if taskQueue.empty():
+            if not taskQueue.empty():
                 nextJob = taskQueue.get_nowait()
                 TB.schedule_job(nextJob)
             else:
                 # were done
                 exit(0)
-
+        time.sleep(time_between_check_in_sec)

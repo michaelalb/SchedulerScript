@@ -1,0 +1,17 @@
+This script is meant to manage jobs running on a queue.
+The idea is that you want to run the same script on many data sets\points in separate jobs but you dont
+necessarily want to occupy the entire queue.
+Instead of managing the jobs yourself, you can run this script and every so often it will sample your running jobs
+and if there are available slots it will automatically submit a job for you.
+this, in theory (this is what i use it for), will allow you to use our cluster much more effectively, as you can utilize
+a lot of the hours of the day (and night) without worrying that if your jobs don't finish by morning they will clog the
+cluster.
+You might have to restructure your script a bit of I have found that once you get used to using this script its quite
+useful.
+The way to use this script is to fill in the blanks in the SH file in the Repo, and use "qsub {path to the sh file}"
+then a "Scheduler job"  will run scheduling the jobs on the datasets you decided until there are no more jobs to run.
+
+WARNING:
+because this creates jobs over a long span of time, I HIGHLY RECOMMEND creating a separate copy of the code you want
+to run for the scheduler. if you change your target code during the run of the scheduler the code loaded when the job
+is created will be different.
