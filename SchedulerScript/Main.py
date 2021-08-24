@@ -1,7 +1,6 @@
 import time
-
 import pathlib
-
+from pathlib import Path
 import SchedulerToolBox as TB
 
 
@@ -24,12 +23,12 @@ if __name__ == '__main__':
     # name and path of your conda env - set to None if no conda env is required
     conda_env_name = 'MLworkshop'
     conda_env_path = '/groups/itay_mayrose/danaazouri/miniconda3/etc/profile.d/conda.sh'
-    # additional commands text to run
+    # additional commands text to run - for example if you want to load a python module instead of a cond env
     additional_commands = ''
 
     # SCRIPT params given to your script in --{param_name} {param_value} format
     # the data to split into chunks, each chunk will be given to the job in list form
-    data_to_split_into_chunks = [3856] + ['1280' for i in range(10)] + [3856]  #[f.name for f in Path('/groups/pupko/alburquerque/RL/Tree_Data/data/All_sized').iterdir() if f.is_dir()]
+    data_to_split_into_chunks = [f.name for f in Path('/groups/pupko/alburquerque/RL/Tree_Data/data/All_sized').iterdir() if f.is_dir()]
     # chunk size for each job
     chunk_size = 1
     # name of the data param you want to give your script
