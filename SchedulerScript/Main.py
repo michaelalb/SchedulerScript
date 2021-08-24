@@ -34,7 +34,7 @@ if __name__ == '__main__':
     # name of the data param you want to give your script
     data_param_name = 'data'
     # additionl params to give to your script. dictionary keys are the param names dictionary values are the values
-    const_script_params = {'cpus': 2}
+    const_script_params = {'cpus': 20}
     # your username
     username = 'alburquerque'
 
@@ -42,9 +42,9 @@ if __name__ == '__main__':
     # total cpu limit of all running jobs
     total_cpu_limit = 100
     # total number of jobs allowed to run (not including the scheduler itself)
-    total_job_number_limit = 5
+    total_job_number_limit = 7
     # total number of jobs the scheduler is allowed to run in parallel
-    scheduler_job_limit = 3
+    scheduler_job_limit = 5
     # a timout for any specific scheduler job in hours. we dont count the minutes
     job_timeout = 1
     # the time between checks in secs, currently set to ten minutes

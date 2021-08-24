@@ -96,7 +96,7 @@ def get_user_job_stats(username, scheduler_job_prefix):
     scheduler_jobs = results_df[results_df['job_name'].str.startswith(scheduler_job_prefix)]
     scheduler_jobs['elapsed_time'] = scheduler_jobs['elapsed_time'].astype(str)
     scheduler_jobs['elapsed_time'] = scheduler_jobs['elapsed_time'].str.split(':')  # just care about the hours
-    scheduler_jobs['elapsed_time'] = scheduler_jobs['elapsed_time'].apply(lambda x: int(x[1]))
+    scheduler_jobs['elapsed_time'] = scheduler_jobs['elapsed_time'].apply(lambda x: int(x[0]))
 
     return results_df, scheduler_jobs
 
