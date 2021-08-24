@@ -135,7 +135,7 @@ def get_how_many_free_slots(username, total_cpu_limit, total_job_number_limit, s
     # check specific criteria
     # no jobs currently scheduled
     if len(scheduler_jobs.index) == 0:
-        return min(total_cpu_limit // cpu_per_job, total_job_number_limit)
+        return min(total_cpu_limit // cpu_per_job, scheduler_job_limit)
 
     if len(scheduler_jobs.index) >= scheduler_job_limit:
         return 0

@@ -19,7 +19,7 @@ if __name__ == '__main__':
     # job name prefix
     job_base_name = 'ScJob_'
     # number of cpus for each scheduled job
-    ncpus = 1
+    ncpus = 20
     # name and path of your conda env - set to None if no conda env is required
     conda_env_name = 'MLworkshop'
     conda_env_path = '/groups/itay_mayrose/danaazouri/miniconda3/etc/profile.d/conda.sh'
